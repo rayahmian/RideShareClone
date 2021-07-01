@@ -1,6 +1,6 @@
 # Ride-Share Clone
 
-This is a ride-share simulation (similar to Uber or Lyft) that I had coded in the 2nd-year of university.
+This is a ride-share simulation (similar to Uber or Lyft).
 To simulate a night of rider-driver activities, ....
 
 ## Objects
