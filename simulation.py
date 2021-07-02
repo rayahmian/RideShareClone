@@ -41,13 +41,14 @@ class Simulation:
         @rtype: dict[str, object]
         """
         for event in initial_events:
-            self._events.add(events)
+            self._events.add(event)
         while not self._events.is_empty():
-            event = self._events.remove().do(self._dispatcher, self._monitor)
+            event = self._events.remove()
+            event.do(self._dispatcher, self._monitor)
             if event is not None:
                 self._events.add(event)
         return self._monitor.report()
-        # TODO: fix run event
+
 
 if __name__ == "__main__":
     events = create_event_list("events.txt")
