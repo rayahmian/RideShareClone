@@ -213,15 +213,16 @@ class RiderRequest(Event):
         @type monitor: Monitor
         @rtype: list[Event]
         """
+        events = []
         monitor.notify(self.timestamp, RIDER, REQUEST, self.rider.identifier,
                        self.rider.origin)
-        events = []
         driver = dispatcher.request_driver(self.rider)
         if driver is not None:
             travel_time = driver.start_drive(self.rider.origin)
             events.append(Pickup(self.timestamp + travel_time, self.rider, driver))
-        events.append(Cancellation(self.timestamp + self.rider.patience, self.rider))
-        # TODO: fix this do() function
+            if travel_time > self.rider.patience:
+                events.append(Cancellation(self.timestamp + self.rider.patience, self.rider))
+        return events
 
     def __str__(self):
         """Return a string representation of this event.
@@ -261,16 +262,15 @@ class DriverRequest(Event):
         @type monitor: Monitor
         @rtype: list[Event]
         """
+        events = []
         monitor.notify(self.timestamp, DRIVER, REQUEST,
                        self.driver.identifier, self.driver.location)
-        events = []
         rider = dispatcher.request_rider(self.driver)
         if rider is not None:
             travel_time = self.driver.start_drive(rider.origin)
             events.append(Pickup(self.timestamp + travel_time, rider,
                                  self.driver))
         return events
-        # TODO: fix the do() function
 
     def __str__(self):
         """Return a string representation of this event.
@@ -309,11 +309,10 @@ class Cancellation(Event):
         @type monitor: Monitor
         @rtype: list[Event]
         """
+        events = []
         monitor.notify(self.timestamp, RIDER, CANCEL,
                        self.rider.identifier, self.rider.origin)
-        events = []
         dispatcher.cancel_ride(self.rider)
-        self.rider.status = CANCELLED
         return events
 
     def __str__(self):
@@ -360,22 +359,20 @@ class Pickup(Event):
         @type monitor: Monitor
         @rtype: list[Event]
         """
-        self.driver.location = self.rider.origin
         events = []
+        self.driver.start_drive(self.rider.origin)
         if self.rider.get_status() == CANCELLED:
-            self.driver.destination = None
+            self.driver.end_drive()
             events.append(DriverRequest(self.timestamp, self.driver))
         else:
             monitor.notify(self.timestamp, RIDER, PICKUP,
                            self.rider.identifier, self.rider.origin)
             monitor.notify(self.timestamp, DRIVER, PICKUP,
                            self.driver.identifier, self.driver.location)
-            # travel_time = self.driver.get_travel_time(self.driver.start_drive(self.rider))
-            # events.append(Dropoff(self.timestamp + travel_time, self.rider,
-            #                      self.driver))
-            self.rider.status = SATISFIED
-            return events
-        # TODO: fix do() function
+            travel_time = self.driver.get_travel_time(self.driver.destination)
+            events.append(Dropoff(self.timestamp + travel_time, self.rider,
+                                  self.driver))
+        return events
 
     def __str__(self):
         """Return a string representation of this event.
@@ -423,16 +420,15 @@ class Dropoff(Event):
         @type monitor: Monitor
         @rtype: list[Event]
         """
-        # events = []
+        events = []
+        self.driver.end_drive()
         monitor.notify(self.timestamp, RIDER, DROPOFF,
                        self.rider.identifier, self.rider.destination)
-        self.driver.location = self.rider.destination
         monitor.notify(self.timestamp, DRIVER, DROPOFF,
                        self.driver.identifier, self.driver.location)
         self.rider.status = SATISFIED
-        # events = [DriverRequest(self.timestamp, self.rider)]
-        self.driver.destination = None
-        # TODO: fix do() function
+        events.append(DriverRequest(self.timestamp, self.driver))
+        return events
 
     def __str__(self):
         """Return a string representation of this event.
