@@ -14,17 +14,17 @@ To simulate a night of rider-driver activities, ....
 
 - The activities of the ride-share simulation take place on a simplified city grid.
 - Locations of the riders and drivers are the intersection they are closest to.
-    - An intersection is represented by a tuple of positive integers that represent 
-      a North/South street and an East/West street, respectively.
+    - An intersection is a tuple of positive integers that represent a North/South street 
+      and an East/West street, respectively.
     - For instance, `(1, 2)` represents Street 1 N/S & Street 2 E/W.
-- When a rider requests a driver, the dispatcher attempts to assign a driver to the rider.
-If there is no driver, the dispatcher keeps the rider on hold until a driver becomes available.
+- When a rider requests a driver, the dispatcher attempts to assign a driver to the rider. 
+  If there is no driver, the dispatcher keeps the rider on hold until a driver becomes available.
     - A rider will cancel if they have to wait too long.
-- When a driver requests a rider, the dispatcher assigns a waiting rider if one is available.
-If this is the driver's first request, the dispatcher registers the driver into its fleet.
-Once registered, a driver never unregisters.
-- There is an apparent relationship between how long riders are waiting to be picked up and how many drivers
-are available, waiting to be assigned to riders.
+- When a driver requests a rider, the dispatcher assigns a waiting rider if one is available. 
+  If this is the driver's first request, the dispatcher registers the driver into its fleet. 
+  Once registered, a driver never unregisters.
+- There is an apparent relationship between how long riders are waiting to be picked up and 
+  how many drivers are available, waiting to be assigned to riders.
     - This simulation can measure how this relationship affects rider wait times and driver earnings.
 - This simulation measures the following events: 
     - Riders requesting rides

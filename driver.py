@@ -12,6 +12,7 @@ class Driver:
         The current location of the driver.
     :param bool is_idle:
         A property that is True if the driver is idle and False otherwise.
+    # TODO: fix is_idle param
     """
 
     def __init__(self, identifier, location, speed):

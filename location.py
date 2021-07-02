@@ -40,7 +40,7 @@ class Location:
         @rtype: int
 
         >>> l1 = Location(1, 2)
-        >>> get_row()
+        >>> l1.get_row()
         1
         """
         return self._row
@@ -52,7 +52,7 @@ class Location:
         @rtype: int
 
         >>> l1 = Location(1, 2)
-        >>> get_col()
+        >>> l1.get_col()
         2
         """
         return self._col

@@ -45,6 +45,7 @@ class Rider:
             The amount of time that the rider can wait.
         @type status: WAITING | CANCELLED | SATISFIED
             The status of the rider.
+        # TODO: fix status param
         @rtype: None
         """
         self.identifier = identifier
