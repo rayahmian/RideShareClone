@@ -1,5 +1,4 @@
 from location import Location, manhattan_distance
-from rider import Rider
 
 
 class Driver:
@@ -12,7 +11,6 @@ class Driver:
         The current location of the driver.
     :param bool is_idle:
         A property that is True if the driver is idle and False otherwise.
-    # TODO: fix is_idle param
     """
 
     def __init__(self, identifier, location, speed):
@@ -92,24 +90,10 @@ class Driver:
         self.location = self.destination
         self.destination = None
 
-    def start_ride(self, rider):
-        """Start a ride and return the time the ride will take.
+    def end_shift(self):
+        """Driver has finished his job for the day and is no longer taking riders.
 
         @type self: Driver
-        @type rider: Rider
-        @rtype: int
+        @rtype: None
         """
-        self.destination = rider.destination
-        return self.get_travel_time(self.destination)
-
-#    def end_ride(self, rider):
-#        """End the current ride and arrive at the rider's destination.
-#
-#        Precondition: The driver has a rider.
-#        Precondition: self.destination is not None.
-#
-#        @type self: Driver
-#        @type rider: Rider
-#        @rtype: None
-#        """
-#        rider.status = SATISFIED
+        self.is_idle = False
