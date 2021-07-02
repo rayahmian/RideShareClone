@@ -193,7 +193,7 @@ class Queue(Container):
         >>> s.add(5)
         >>> s.add(7)
         >>> s.remove()
-        7
+        5
         """
         return self._queue.pop(0)
 
