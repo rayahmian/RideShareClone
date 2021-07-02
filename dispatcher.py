@@ -47,23 +47,14 @@ class Dispatcher:
         @type rider: Rider
         @rtype: Driver | None
         """
-        if len(self.driver_fleet) == 0:
-            self.wait_list.add(rider)
-            return None
-
         req_driver = None
         for driver in self.driver_fleet:
-            if req_driver is None:
+            if driver.is_idle():
                 req_driver = driver
-            elif driver.is_idle is True:
-                travel_time = driver.get_travel_time(rider.origin)
-                if travel_time < req_driver.get_travel_time(rider.origin):
-                    req_driver = driver
+                break
         if req_driver is None:
             self.wait_list.add(rider)
-            return req_driver
-        else:
-            return req_driver
+        return req_driver
 
     def request_rider(self, driver):
         """Return a rider for the driver, or None if no rider is available.
@@ -79,8 +70,7 @@ class Dispatcher:
         if self.wait_list.is_empty():
             return None
         else:
-            item = self.wait_list.remove()
-            return item
+            return self.wait_list.remove()
 
     def cancel_ride(self, rider):
         """Cancel the ride request for rider.
@@ -92,6 +82,5 @@ class Dispatcher:
         @type rider: Rider
         @rtype: None
         """
-        # TODO: fix cancel_ride function
-        self.wait_list.remove()
-        rider.status = CANCELLED
+        if rider == self.wait_list.remove():
+            rider.status = CANCELLED
