@@ -14,7 +14,7 @@ class Driver:
     """
 
     def __init__(self, identifier, location, speed):
-        """ Initialize a Driver.
+        """Initialize a Driver.
 
         @type self: Driver
         @type identifier: str
