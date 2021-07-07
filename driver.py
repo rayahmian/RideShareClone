@@ -5,11 +5,11 @@ class Driver:
     """A driver for a ride-sharing service.
 
     === Attributes ===
-    :param str identifier:
+    @type identifier: str
         A unique identifier for the driver
-    :param Location location:
+    @type location: Location
         The current location of the driver.
-    :param bool is_idle:
+    @type is_idle: bool
         A property that is True if the driver is idle and False otherwise.
     """
 
