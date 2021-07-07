@@ -1,7 +1,7 @@
 # Ride-Share Clone
 
 This is a ride-share simulation (similar to Uber or Lyft).
-To simulate a night of rider-driver activities, you can run simulation.py using events.txt.
+To simulate a night of rider-driver activities, run simulation.py using events.txt.
 
 ## Objects
 
